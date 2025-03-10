@@ -1,26 +1,28 @@
-# deps
-node_modules
-.pnp
-.pnp.js
-
-# build
-dist
-build
-.vite
-
-# env
-.env
-
-# logs
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# editor
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# mac
+# OS
 .DS_Store
 
