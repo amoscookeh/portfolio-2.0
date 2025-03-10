@@ -1,8 +1,9 @@
 import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text, PerspectiveCamera, Environment } from "@react-three/drei";
-import { Group, MathUtils } from "three";
+import { Group, MathUtils, RGBA_ASTC_10x10_Format } from "three";
 import { useGesture } from "@use-gesture/react";
+import { getScreenType, ScreenType } from "../utils/sizing";
 
 interface PyramidProps {
   sectionTitles: string[];
@@ -22,6 +23,45 @@ export default function Pyramid({
   const velocity = useRef(0);
   const targetRotation = useRef(0);
   const { size, gl } = useThree();
+
+  // Responsive sizing based on viewport width (following tailwind values)
+  const getResponsiveScale = (st: ScreenType): number => {
+    switch (st) {
+      case ScreenType.Mobile:
+        return 0.8;
+      case ScreenType.Desktop:
+        return 0.9;
+      case ScreenType.Widescreen:
+        return 1.5;
+      default:
+        return 0.9;
+    }
+  };
+
+  // Responsive text size based on viewport width
+  const getTextSize = (st: ScreenType): number => {
+    switch (st) {
+      case ScreenType.Mobile:
+        return 0.17;
+      case ScreenType.Desktop:
+        return 0.2;
+      case ScreenType.Widescreen:
+        return 1;
+      default:
+        return 0.1;
+    }
+  };
+
+  // Responsive radius for text positioning
+  const getTextRadius = () => {
+    if (size.width < 768) {
+      return 1.1;
+    } else if (size.width < 1280) {
+      return 1.2;
+    } else {
+      return 1.3;
+    }
+  };
 
   const sectionAngle = (Math.PI * 2) / sectionTitles.length;
 
@@ -43,6 +83,15 @@ export default function Pyramid({
       targetRotation.current = -currentIndex * sectionAngle;
     }
   }, [currentIndex, sectionAngle]);
+
+  // Update scale when viewport size changes
+  useEffect(() => {
+    if (groupRef.current) {
+      const st = getScreenType(size.width);
+      const scale = getResponsiveScale(st);
+      groupRef.current.scale.set(scale, scale, scale);
+    }
+  }, [size.width, size.height]);
 
   // Handle mouse/touch interactions
   useGesture(
@@ -160,11 +209,15 @@ export default function Pyramid({
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 4]} />
+      <PerspectiveCamera
+        makeDefault
+        position={[0, 0, size.width < 768 ? 4.5 : 4]}
+        fov={size.width < 768 ? 60 : 50}
+      />
       <Environment preset="sunset" />
 
       <group ref={groupRef}>
-        {/* TODO: replace this with better centre piece */}
+        {/* Center pyramid */}
         <mesh ref={pyramidRef} position={[0, 0, 0]}>
           <coneGeometry
             args={[
@@ -193,16 +246,21 @@ export default function Pyramid({
         {sectionTitles.map((title, index) => {
           const angle = (index / sectionTitles.length) * Math.PI * 2;
           const isSelected = index === currentIndex;
+          const textRadius = getTextRadius();
 
           return (
             <group
               key={title}
-              position={[Math.sin(angle) * 1.3, 0, Math.cos(angle) * 1.3]}
+              position={[
+                Math.sin(angle) * textRadius,
+                0,
+                Math.cos(angle) * textRadius,
+              ]}
               rotation={[0, angle, 0]}
             >
               <Text
                 position={[0, 0, 0]}
-                fontSize={0.15}
+                fontSize={getTextSize(getScreenType(size.width))}
                 color={isSelected ? "#ffffff" : "#7c8db5"}
                 anchorX="center"
                 anchorY="middle"
