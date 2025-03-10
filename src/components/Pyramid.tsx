@@ -32,7 +32,7 @@ export default function Pyramid({
       case ScreenType.Desktop:
         return 0.9;
       case ScreenType.Widescreen:
-        return 1.5;
+        return 0.9;
       default:
         return 0.9;
     }
@@ -42,24 +42,27 @@ export default function Pyramid({
   const getTextSize = (st: ScreenType): number => {
     switch (st) {
       case ScreenType.Mobile:
-        return 0.17;
+        return 0.18;
       case ScreenType.Desktop:
         return 0.2;
       case ScreenType.Widescreen:
-        return 1;
+        return 0.15;
       default:
-        return 0.1;
+        return 0.2;
     }
   };
 
   // Responsive radius for text positioning
-  const getTextRadius = () => {
-    if (size.width < 768) {
-      return 1.1;
-    } else if (size.width < 1280) {
-      return 1.2;
-    } else {
-      return 1.3;
+  const getTextRadius = (st: ScreenType): number => {
+    switch (st) {
+      case ScreenType.Mobile:
+        return 1.1;
+      case ScreenType.Desktop:
+        return 1.2;
+      case ScreenType.Widescreen:
+        return 1.3;
+      default:
+        return 1.2;
     }
   };
 
@@ -246,7 +249,7 @@ export default function Pyramid({
         {sectionTitles.map((title, index) => {
           const angle = (index / sectionTitles.length) * Math.PI * 2;
           const isSelected = index === currentIndex;
-          const textRadius = getTextRadius();
+          const textRadius = getTextRadius(getScreenType(size.width));
 
           return (
             <group
