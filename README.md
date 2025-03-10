@@ -1,54 +1,72 @@
-# React + TypeScript + Vite
+# Futuristic 3D Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a personal portfolio website featuring an interactive 3D interface with a futuristic sphere that serves as the main navigation element.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Interactive 3D sphere for navigation
+- Sections for: About Me, Projects, Work, Videos, Blog, Socials, and Search
+- Vim-like keyboard controls (h/l to navigate, j/k to scroll)
+- Responsive design for both mobile and desktop
+- Smooth animations and transitions
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- TypeScript
+- ThreeJS / React Three Fiber
+- TailwindCSS
+- Vite
+- Bun runtime
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Development
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (for package management and runtime)
+- [Git](https://git-scm.com/)
+
+### Setup
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/futuristic-portfolio.git
+   cd futuristic-portfolio
+   ```
+
+2. Install dependencies
+   ```bash
+   bun install
+   ```
+
+3. Run the development server
+   ```bash
+   bun run dev
+   ```
+
+4. Open your browser at `http://localhost:5173`
+
+## Keyboard Controls
+
+- `h` - Navigate left
+- `l` - Navigate right
+- `j` - Scroll down (within a section)
+- `k` - Scroll up (within a section)
+- `Enter` - Select section
+- `Escape` - Exit section
+
+## Mobile Controls
+
+- Swipe left/right to navigate between sections
+- Tap on the section to select it
+- Use the bottom navigation buttons for additional control
+
+## Building for Production
+
+```bash
+bun run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+[MIT](LICENSE)
