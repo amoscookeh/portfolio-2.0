@@ -1,0 +1,26 @@
+# deps
+node_modules
+.pnp
+.pnp.js
+
+# build
+dist
+build
+.vite
+
+# env
+.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+
+# mac
+.DS_Store
+
